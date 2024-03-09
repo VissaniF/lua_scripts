@@ -1,6 +1,6 @@
 
 
-local npcId = 300000
+local npcId = 400000
 
 
 -- Esta función se llama cuando la criatura entra en combate
@@ -124,17 +124,31 @@ end
 
 function Boss_ClassPick(eventid, delay, calls, creature)
     creature:RemoveEvents()
+
+        --Para forzar que las clases se elijan 1 por 1 sin repetirse hacemos un contador con un condicional
+        --  local classCounter = 1
+        --  quitamos el choice = math.random
+        --  Agregamos en vez de if choice == 1 then ponemos if classCounter == 1 then
+        --  Para hacer que pegue la vuelta lo cerramos con 
+
+        --classCounter = classCounter + 1
+        --    if classCounter > 5 then
+        --        classCounter = 1 -- Reiniciar el contador si ya hemos pasado por todas las clases
+        --    end
+
     local Choice = math.random(1, 8)
+    
     if Choice == 1 then
         creature:SendUnitYell("¡Siente el poder del mejor chamán de todo Azeroth!", 0)
         creature:RegisterEvent(Boss_Shaman, 1000, 0)
-        creature:CastSpell(creature, 49281, true)
+        creature:CastSpell(creature, 2894, true) -- Tira elemental
         creature:CastSpell(creature, 2484, true) -- Se tira escudo de relampago ni bien aparece
-        creature:CastSpell(creature:GetVictim(), 51533, true) -- Lanza Choque de Escarcha sobre el objetivo
+        creature:CastSpell(creature:GetVictim(), 51533, true) -- Lanza los lobos
     elseif Choice == 2 then
         creature:SendUnitYell("¡Siente el poder del mejor paladín de todo Azeroth!", 0)
         creature:RegisterEvent(Boss_Paladin, 1000, 0)
-        creature:CastSpell(creature:GetVictim(), 53407, true) -- Lanza Sentencia sobre el objetivo
+        creature:CastSpell(creature:GetVictim(), 53407, true)-- Lanza Sentencia sobre el objetivo
+        creature:CastSpell(creature:GetVictim(), 10308, true)-- Lanza sentencia
     elseif Choice == 3 then
         creature:SendUnitYell("¡Siente el poder del mejor druida de todo Azeroth!", 0)
         creature:RegisterEvent(Boss_Druid, 1000, 0)
@@ -145,8 +159,9 @@ function Boss_ClassPick(eventid, delay, calls, creature)
     elseif Choice == 4 then
         creature:SendUnitYell("¡Siente el poder de la mejor sacerdotisa de todo Azeroth!", 0)
         creature:RegisterEvent(Boss_Priest, 1000, 0)
-        creature:CastSpell(creature:GetVictim(), 32379, true) -- Lanza Poder de lo Oscuro sobre el objetivo
-        creature:CastSpell(creature:GetVictim(), 48127, true) -- Lanza Explosión Mental sobre el objetivo
+        creature:CastSpell(creature:GetVictim(), 10890, true) -- Lanza alarido 
+        creature:CastSpell(creature:GetVictim(), 32375, true) -- Lanza Dispell en masa
+        creature:CastSpell(creature:GetVictim(), 32375, true) -- 2 veces
     elseif Choice == 5 then
         creature:SendUnitYell("¡Siente el poder de la mejor pícara de todo Azeroth!", 0)
         creature:RegisterEvent(Boss_Rogue, 1000, 0)
@@ -215,35 +230,47 @@ function Boss_Shaman(eventid, delay, calls, creature)
     creature:RegisterEvent(Boss_SpellShamanTotem, 13000, 0) -- Registra un evento para lanzar el hechizo de tierra del chamán después de 13 segundos, sin repetición
     creature:RegisterEvent(Boss_SpellShamanFrost, 14000, 0) -- Registra un evento para lanzar el hechizo de helada del chamán después de 14 segundos, sin repetición
     creature:RegisterEvent(Boss_SpellShamanBuff, 5000, 0)
+    creature:RegisterEvent(Boss_SpellShamanAnsias, 6000, 0)
     creature:RegisterEvent(Boss_SpellShamanEmpujar, 10000, 0) -- Registra un evento para lanzar el hechizo de aumento de poder del chamán después de 5 segundos, sin repetición
-    creature:RegisterEvent(Boss_ClassPick, 40000, 0) -- Registra un evento para seleccionar la clase del jefe después de 30 segundos, sin repetición
-    creature:RegisterEvent(Boss_TalkShaman, 15000, 0) -- Registra un evento para el diálogo específico del chamán después de 15 segundos, sin repetición
-    creature:RegisterEvent(Boss_Talk, 30000, 0)
+    creature:RegisterEvent(Boss_ClassPick, 30000, 0) -- Registra un evento para seleccionar la clase del jefe después de 30 segundos, sin repetición
+    creature:RegisterEvent(Boss_TalkShaman, 18000, 0) -- Registra un evento para el diálogo específico del chamán después de 15 segundos, sin repetición
+    creature:RegisterEvent(Boss_Talk, 25000, 0)
      -- Registra un evento de diálogo general después de 30 segundos, sin repetición
 end
 
 -- Define una función para lanzar el hechizo de cadena del chamán
 function Boss_SpellShamanChain(eventid, delay, calls, creature)
-    creature:CastSpell(creature:GetVictim(), 16033, true) -- Lanza el hechizo de cadena del chamán en el objetivo actual
+    creature:CastSpell(creature:GetVictim(), 16033, true)
+    creature:SetScale(3) -- Lanza el hechizo de cadena del chamán en el objetivo actual
 end
 
+function Boss_SpellShamanAnsias(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 2825, true)
+    creature:SetScale(6)
+     -- Lanza el hechizo de tormenta de truenos
+end--2825
+
 function Boss_SpellShamanEmpujar(eventid, delay, calls, creature)
-    creature:CastSpell(creature:GetVictim(), 59159, true) -- Lanza el hechizo de tormenta de truenos
+    creature:CastSpell(creature:GetVictim(), 59159, true)
+    creature:SetScale(3) -- Lanza el hechizo de tormenta de truenos
 end
 
 -- Define una función para lanzar el hechizo de tierra del chamán
 function Boss_SpellShamanTotem(eventid, delay, calls, creature)
-    creature:CastSpell(creature:GetVictim(), 2484, true) -- Lanza el hechizo de tierra del chamán en el objetivo actual
+    creature:CastSpell(creature:GetVictim(), 2484, true)
+    creature:SetScale(3) -- Lanza el hechizo de tierra del chamán en el objetivo actual
 end
 
 -- Define una función para lanzar el hechizo de helada del chamán
 function Boss_SpellShamanFrost(eventid, delay, calls, creature)
-    creature:CastSpell(creature:GetVictim(), 34353, true) -- Lanza el hechizo de helada del chamán en el objetivo actual
+    creature:CastSpell(creature:GetVictim(), 34353, true)
+    creature:SetScale(3) -- Lanza el hechizo de helada del chamán en el objetivo actual
 end
 
 -- Define una función para lanzar el hechizo de aumento de poder del chamán
 function Boss_SpellShamanBuff(event, delay, calls, creature)
-    creature:CastSpell(creature, 10431, true) -- Lanza el hechizo de aumento de poder del chamán en la criatura misma
+    creature:CastSpell(creature, 10431, true)
+    creature:SetScale(3) -- Lanza el hechizo de aumento de poder del chamán en la criatura misma
 end
 
 
@@ -253,7 +280,7 @@ end
 function Boss_Paladin(eventid, delay, calls, creature)
     creature:RemoveEvents()
     creature:SetDisplayId(23889)
-    creature:SetScale(3)
+    creature:SetScale(4)
     creature:RemoveAllAuras()
     creature:CastSpell(creature, 54043, 1)
     creature:SetEquipmentSlots(40343, 0, 0) -- Equipo el arma principal
@@ -273,9 +300,9 @@ function Boss_Paladin(eventid, delay, calls, creature)
     creature:RegisterEvent(Boss_SpellPaladinShock, 10000 + duration_Alitas + duration_Martillo, 1) -- Comienza después de Martillo
     creature:RegisterEvent(Boss_SpellPaladinShield, 10000 + duration_Alitas + duration_Shock, 0)
     creature:RegisterEvent(Boss_SpellPaladinTormentaDivina, 8000, 2) -- Comienza después de Shock
-    creature:RegisterEvent(Boss_ClassPick, 40000, 0)
-    creature:RegisterEvent(Boss_TalkPaladin, 15000, 0)
-    creature:RegisterEvent(Boss_Talk, 30000, 0)
+    creature:RegisterEvent(Boss_ClassPick, 30000, 0)
+    creature:RegisterEvent(Boss_TalkPaladin, 18000, 0)
+    creature:RegisterEvent(Boss_Talk, 25000, 0)
 end
 
 
@@ -320,49 +347,62 @@ end
 --=======================================================
 
 function Boss_Druid(eventid, delay, calls, creature)
-creature:RemoveEvents()
-creature:SetDisplayId(5927)
-creature:SetScale(3)
-creature:SetEquipmentSlots(47911, 0, 0)
-creature:RemoveAllAuras()
-creature:RegisterEvent(Boss_SpellDruidStarfire, 10000, 0) --26986--
-creature:RegisterEvent(Boss_SpellDruidCripple, 12000, 0) --20812--
-creature:RegisterEvent(Boss_SpellDruidLifebloom, 7000, 0) --33763--
-creature:RegisterEvent(Boss_SpellDruidNatures, 19000, 0) --27009--
-creature:RegisterEvent(Boss_SpellDruidLluvia, 25000, 0)
-creature:RegisterEvent(Boss_SpellDruidTifon, 7000, 0)
-creature:RegisterEvent(Boss_SpellDruidHuracan, 7000, 1) -- 48467
-creature:RegisterEvent(Boss_SpellDruidRejuvenecer, 7000, 2) --48441
-creature:RegisterEvent(Boss_ClassPick, 40000, 0)
-creature:RegisterEvent(Boss_TalkDruid, 15000, 0)
-creature:RegisterEvent(Boss_Talk, 30000, 0)
+    creature:RemoveEvents()
+    creature:SetDisplayId(5927)
+    creature:SetScale(3)
+    creature:SetEquipmentSlots(47911, 0, 0)
+    creature:RemoveAllAuras()
+    creature:RegisterEvent(Boss_SpellDruidStarfire, 10000, 0) --26986--
+    creature:RegisterEvent(Boss_SpellDruidCripple, 12000, 0) --20812--
+    creature:RegisterEvent(Boss_SpellDruidLifebloom, 7000, 0) --33763--
+    creature:RegisterEvent(Boss_SpellDruidNatures, 19000, 0) --27009--
+    creature:RegisterEvent(Boss_SpellDruidLluvia, 25000, 0)
+    creature:RegisterEvent(Boss_SpellDruidTifon, 7000, 0)
+    creature:RegisterEvent(Boss_SpellDruidCiclon, 7000, 0)--33786
+    creature:RegisterEvent(Boss_SpellDruidHuracan, 7000, 1) -- 48467
+    creature:RegisterEvent(Boss_SpellDruidRejuvenecer, 7000, 2) --48441
+    creature:RegisterEvent(Boss_ClassPick, 30000, 0)
+    creature:RegisterEvent(Boss_TalkDruid, 18000, 0)
+    creature:RegisterEvent(Boss_Talk, 25000, 0)
 end
 
 function Boss_SpellDruidStarfire(eventid, delay, calls, creature)
-creature:CastSpell(creature:GetVictim(), 26986, true)
+    creature:CastSpell(creature:GetVictim(), 26986, true)
+end
+
+function Boss_SpellDruidCiclon(eventid, delay, calls, creature)
+    -- Obtener solo criaturas vivas y hostiles dentro de un rango de 30 yardas
+    local enemies = creature:GetCreaturesInRange(30, nil, 1, 1)
+    
+    if #enemies > 0 then
+        local randomIndex = math.random(1, #enemies)
+        local target = enemies[randomIndex]
+        creature:CastSpell(target, 33786, true) -- Lanza Ciclón sobre un enemigo aleatorio cercano
+    else
+        print("No hay enemigos cercanos para lanzar Ciclón.")
+    end
 end
 
 function Boss_SpellDruidHuracan(eventid, delay, calls, creature)
-creature:CastSpell(creature:GetVictim(), 48467, true)
+    creature:CastSpell(creature:GetVictim(), 48467, true)
 end
 
 function Boss_SpellDruidCripple(eventid, delay, calls, creature)
-creature:CastSpell(creature:GetVictim(), 20812, true)
+    creature:CastSpell(creature:GetVictim(), 20812, true)
 end
 
 function Boss_SpellDruidRejuvenecer(eventid, delay, calls, creature)
-creature:CastSpell(creature, 48441, true)
-
+    creature:CastSpell(creature, 48441, true)
 end
 
 function Boss_SpellDruidTifon(eventid, delay, calls, creature)
-creature:CastSpell(creature:GetVictim(), 61384, true)
+    creature:CastSpell(creature:GetVictim(), 61384, true)
 end
 
 function Boss_SpellDruidLifebloom(eventid, delay, calls, creature)
-creature:CastSpell(creature, 33763, true)
-creature:CastSpell(creature, 33763, true)
-creature:CastSpell(creature, 33763, true)
+    creature:CastSpell(creature, 33763, true)
+    creature:CastSpell(creature, 33763, true)
+    creature:CastSpell(creature, 33763, true)
 end
 
 function Boss_SpellDruidLluvia(eventid, delay, calls, creature)
@@ -370,8 +410,9 @@ function Boss_SpellDruidLluvia(eventid, delay, calls, creature)
 end
 
 function Boss_SpellDruidNatures(eventid, delay, calls, creature)
-creature:CastSpell(creature, 27009, true)
+    creature:CastSpell(creature, 27009, true)
 end
+
 
 --=======================================================
 -------------------------sacerdote
@@ -383,16 +424,18 @@ function Boss_Priest(eventid, delay, calls, creature)
     creature:SetScale(4)
     creature:SetEquipmentSlots(32830, 0, 0)
     creature:RemoveAllAuras()
+    creature:CastSpell(creature, 15473, true) -- Se tira sombras del sacer
     creature:RegisterEvent(Boss_SpellPriestNova, 8000, 0) -- 48078
     creature:RegisterEvent(Boss_SpellPriestSmite, 10000, 0) -- 25364
     creature:RegisterEvent(Boss_SpellPriestDispel, 19000, 0) -- 32375
-    creature:RegisterEvent(Boss_SpellPriestPain, 15000, 0)  
+    creature:RegisterEvent(Boss_SpellPriestPain, 15000, 0)
+    creature:RegisterEvent(Boss_SpellPriestTortura, 15000, 2)   --53023
     creature:RegisterEvent(Boss_SpellSanacion, 1500, 1, creature)
     creature:RegisterEvent(Boss_SpellEscudo, 15000, 2) -- 25368
-    creature:RegisterEvent(Boss_ClassPick, 40000, 0)
+    creature:RegisterEvent(Boss_ClassPick, 30000, 0)
     creature:RegisterEvent(Boss_SpellPriestBuff, 15000, 1) -- 48161
-    creature:RegisterEvent(Boss_TalkPriest, 15000, 0)
-    creature:RegisterEvent(Boss_Talk, 30000, 0)
+    creature:RegisterEvent(Boss_TalkPriest, 18000, 0)
+    creature:RegisterEvent(Boss_Talk, 25000, 0)
 end
 
 function Boss_SpellSanacion(eventid, delay, calls, creature)
@@ -408,7 +451,9 @@ function Boss_SpellEscudo(eventid, delay, calls, creature)
 end
 
 
-
+function Boss_SpellPriestTortura(eventid, delay, calls, creature)
+    creature:CastSpell(creature, 53023, true)
+end
 
 
 function Boss_SpellPriestNova(eventid, delay, calls, creature)
@@ -441,9 +486,9 @@ function Boss_Rogue(eventid, delay, calls, creature)
     creature:RegisterEvent(Boss_SpellRoguePasoSombra, 15000, 0)--36554--
     creature:RegisterEvent(Boss_SpellRogueAbanico, 8000, 0)--51723--
     creature:RegisterEvent(Boss_SpellRogueEvacion, 8000, 0)  --26669
-    creature:RegisterEvent(Boss_ClassPick, 40000, 0)
-    creature:RegisterEvent(Boss_TalkRogue, 15000, 0)
-    creature:RegisterEvent(Boss_Talk, 30000, 0)
+    creature:RegisterEvent(Boss_ClassPick, 30000, 0)
+    creature:RegisterEvent(Boss_TalkRogue, 18000, 0)
+    creature:RegisterEvent(Boss_Talk, 25000, 0)
 end
 
 function Boss_SpellRogueBlind(eventid, delay, calls, creature)
@@ -506,9 +551,9 @@ creature:RegisterEvent(Boss_SpellWarriorReflejo, 10000, 0)
 creature:RegisterEvent(Boss_SpellWarriorBuff, 16000, 0)--47436
 creature:RegisterEvent(Boss_SpellWarriorFear, 25000, 2)--5246
 creature:RegisterEvent(Boss_SpellWarriorRemolino, 3000, 1) --11578--
-creature:RegisterEvent(Boss_ClassPick, 40000, 0)
-creature:RegisterEvent(Boss_TalkWarrior, 15000, 0)
-creature:RegisterEvent(Boss_Talk, 30000, 0)
+creature:RegisterEvent(Boss_ClassPick, 30000, 0)
+creature:RegisterEvent(Boss_TalkWarrior, 18000, 0)
+creature:RegisterEvent(Boss_Talk, 25000, 0)
 end
 
 function Boss_SpellWarriorBuff(eventid, delay, calls, creature)
@@ -577,9 +622,9 @@ creature:RegisterEvent(Boss_SpellWarlockMaldicion, 9000, 0) -- 47843
 creature:RegisterEvent(Boss_SpellWarlockEscudo, 9000, 1)--47893
 creature:RegisterEvent(Boss_SpellWarlockDrenar, 9000, 1)--47857 Drenar vida
 creature:RegisterEvent(Boss_SpellWarlockCoil, 11000, 0) --17926--
-creature:RegisterEvent(Boss_ClassPick, 40000, 0)
-creature:RegisterEvent(Boss_TalkWarlock, 15000, 0)
-creature:RegisterEvent(Boss_Talk, 30000, 0)
+creature:RegisterEvent(Boss_ClassPick, 30000, 0)
+creature:RegisterEvent(Boss_TalkWarlock, 18000, 0)
+creature:RegisterEvent(Boss_Talk, 25000, 0)
 end
 
 function Boss_SpellWarlockEscudo(eventid, delay, calls, creature)
@@ -635,16 +680,16 @@ creature:SetEquipmentSlots(11932, 0, 0)
 creature:RemoveAllAuras()
 creature:RegisterEvent(Boss_SpellMageExplosion, 10000, 0) --27082--
 creature:RegisterEvent(Boss_SpellMageCone, 15000, 0) --10161--
-creature:RegisterEvent(Boss_SpellMageNova, 12000, 0) --6131--
+creature:RegisterEvent(Boss_SpellMageAliento, 12000, 0) --6131--
 creature:RegisterEvent(Boss_SpellMageArcane, 10000, 4)--42897
 creature:RegisterEvent(Boss_SpellMageLance, 8000, 0) --30455--
 creature:RegisterEvent(Boss_SpellMageOnyxia, 8000, 0)
 creature:RegisterEvent(Boss_SpellMageVentisca, 8000, 2)--42940
 creature:RegisterEvent(Boss_SpellMageEscarcha, 8000, 0)--43008
 creature:RegisterEvent(Boss_SpellMageEscudo, 8000, 0)--43020
-creature:RegisterEvent(Boss_ClassPick, 40000, 0)
-creature:RegisterEvent(Boss_TalkMage, 15000, 0)
-creature:RegisterEvent(Boss_Talk, 30000, 0)
+creature:RegisterEvent(Boss_ClassPick, 30000, 0)
+creature:RegisterEvent(Boss_TalkMage, 18000, 0)
+creature:RegisterEvent(Boss_Talk, 25000, 0)
 end
 
 function Boss_SpellMageExplosion(eventid, delay, calls, creature)
@@ -675,8 +720,8 @@ function Boss_SpellMageCone(eventid, delay, calls, creature)
 creature:CastSpell(creature:GetVictim(), 10161, true)
 end
 
-function Boss_SpellMageNova(eventid, delay, calls, creature)
-creature:CastSpell(creature:GetVictim(), 73061, true)
+function Boss_SpellMageAliento(eventid, delay, calls, creature)
+creature:CastSpell(creature:GetVictim(), 42950, true)
 end
 
 function Boss_SpellMageLance(eventid, delay, calls, creature)
@@ -703,10 +748,24 @@ local function OnDied(event, creature, killer)
 end
 
 
+local killedMessages = {
+    "¿Ya murió otro? Parecen de papel... Jajaja",
+    "El jugador %s no estaba preparado para enfrentarme.",
+    "Ahí murió uno más...",
+    "%s, suerte la proxima vez.",
+    "¿Otro caído? Mi poder es inquebrantable.",
+    "La muerte es solo el principio...",
+}
+
 local function OnKilledPlayer(event, creature, victim)
-creature:SendUnitSay("¡Regresen cuando sean mas fuertes!", 0)
-creature:PlayDistanceSound(9250)
+    local playerName = victim:GetName()
+    local messageIndex = math.random(1, #killedMessages)
+    local message = killedMessages[messageIndex]
+
+    creature:SendUnitSay(message:format(playerName), 0)
+    creature:PlayDistanceSound(9250)
 end
+
 
 
 
