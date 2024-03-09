@@ -4,16 +4,16 @@ local Team = {
 	[1] = "Horda"
 };
 local Races = {
-	[1] = "Humano",
-	[2] = "Orco",
-	[3] = "Enano",
-	[4] = "Elfo de la noche",
-	[5] = "No muerto",
-	[6] = "Tauren",
-	[7] = "Gnomo",
-	[8] = "Troll",
-	[10] = "Elfo de Sangre",
-	[11] = "Draenei"
+	[1] = "Humano ",
+	[2] = "Orco ",
+	[3] = "Enano ",
+	[4] = "Elfo de la noche ",
+	[5] = "No muerto ",
+	[6] = "Tauren ",
+	[7] = "Gnomo ",
+	[8] = "Troll ",
+	[10] = "Elfo de Sangre ",
+	[11] = "Draenei "
 };
 local Classes = {
         [1] = "C79C6E", 
@@ -29,8 +29,8 @@ local Classes = {
 };	
 
 function FirstLogin (event, player)
-SendWorldMessage("Bienvenido "..player:GetName()..", "..Races[player:GetRace()].."|cFF"..Classes[player:GetClass()]..""..player:GetClassAsString().."|r lucha por la "..Team[player:GetTeam()]..". Tu viaje acaba de comenzar.");
-	player:AddItem(49284, 1)	-- Custom Item
+SendWorldMessage("Bienvenido "..player:GetName()..", "..Races[player:GetRace()].."|cFF"..""..Classes[player:GetClass()]..""..player:GetClassAsString().."|r lucha por la "..Team[player:GetTeam()]..". Tu viaje acaba de comenzar.");
+	player:AddItem(853, 2)	-- Aca le agregamos el item que le queremos dar de bienvenida. Pueden ser tokens
 	end
 
 RegisterPlayerEvent(30, FirstLogin)
