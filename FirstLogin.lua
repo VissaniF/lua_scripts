@@ -29,7 +29,7 @@ local Classes = {
 };	
 
 function FirstLogin (event, player)
-SendWorldMessage("Bienvenido "..player:GetName()..", "..Races[player:GetRace()].."|cFF"..""..Classes[player:GetClass()]..""..player:GetClassAsString().."|r lucha por la "..Team[player:GetTeam()]..". Tu viaje acaba de comenzar.");
+SendWorldMessage("Bienvenido "..player:GetName()..", "..Races[player:GetRace()].."|cFF"..""..Classes[player:GetClass()]..""..player:GetClassAsString().."|r lucha por la "..Team[player:GetTeam()]..". Tu viaje acaba de comenzar en Sulvus.");
 	player:AddItem(853, 2)	-- Aca le agregamos el item que le queremos dar de bienvenida. Pueden ser tokens
 	end
 

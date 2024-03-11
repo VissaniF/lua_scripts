@@ -241,36 +241,36 @@ end
 -- Define una función para lanzar el hechizo de cadena del chamán
 function Boss_SpellShamanChain(eventid, delay, calls, creature)
     creature:CastSpell(creature:GetVictim(), 16033, true)
-    creature:SetScale(3) -- Lanza el hechizo de cadena del chamán en el objetivo actual
+    --creature:SetScale(3) -- Lanza el hechizo de cadena del chamán en el objetivo actual
 end
 
 function Boss_SpellShamanAnsias(eventid, delay, calls, creature)
     creature:CastSpell(creature:GetVictim(), 2825, true)
-    creature:SetScale(6)
+    
      -- Lanza el hechizo de tormenta de truenos
 end--2825
 
 function Boss_SpellShamanEmpujar(eventid, delay, calls, creature)
     creature:CastSpell(creature:GetVictim(), 59159, true)
-    creature:SetScale(3) -- Lanza el hechizo de tormenta de truenos
+    
 end
 
 -- Define una función para lanzar el hechizo de tierra del chamán
 function Boss_SpellShamanTotem(eventid, delay, calls, creature)
     creature:CastSpell(creature:GetVictim(), 2484, true)
-    creature:SetScale(3) -- Lanza el hechizo de tierra del chamán en el objetivo actual
+    
 end
 
 -- Define una función para lanzar el hechizo de helada del chamán
 function Boss_SpellShamanFrost(eventid, delay, calls, creature)
     creature:CastSpell(creature:GetVictim(), 34353, true)
-    creature:SetScale(3) -- Lanza el hechizo de helada del chamán en el objetivo actual
+    
 end
 
 -- Define una función para lanzar el hechizo de aumento de poder del chamán
 function Boss_SpellShamanBuff(event, delay, calls, creature)
     creature:CastSpell(creature, 10431, true)
-    creature:SetScale(3) -- Lanza el hechizo de aumento de poder del chamán en la criatura misma
+    
 end
 
 
