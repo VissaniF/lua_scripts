@@ -47,6 +47,16 @@ function Boss_TalkShaman(eventid, delay, calls, creature)
     end
 end
 
+function Boss_TalkDK(eventid, delay, calls, creature)
+    local Choice = math.random(1, 2)
+    if Choice == 1 then
+        creature:SendUnitSay("Oh mi querido Rey Éxanime, luchare junto a tu lado.", 0)
+    end
+    if Choice == 2 then
+        creature:SendUnitSay("¡La Agonía de Escarcha se alimenta!.", 0)
+    end
+end
+
 function Boss_TalkPaladin(eventid, delay, calls, creature)
     local Choice = math.random(1, 2)
     if Choice == 1 then
@@ -106,7 +116,7 @@ local function Boss_TalkWarlock(eventid, delay, calls, creature)
         creature:SendUnitSay("Las sombras que rodean la Clase de Brujo siempre permanecerán como un misterio...", 0)
     end
 end
--- Créditos a nymphx de mmowned --
+
 local function Boss_TalkMage(eventid, delay, calls, creature)
     local Choice = math.random(1, 2)
     if Choice == 1 then
@@ -136,7 +146,7 @@ function Boss_ClassPick(eventid, delay, calls, creature)
         --        classCounter = 1 -- Reiniciar el contador si ya hemos pasado por todas las clases
         --    end
 
-    local Choice = math.random(1, 8)
+    local Choice = math.random(1, 9)
     
     if Choice == 1 then
         creature:SendUnitYell("¡Siente el poder del mejor chamán de todo Azeroth!", 0)
@@ -199,9 +209,14 @@ function Boss_ClassPick(eventid, delay, calls, creature)
         creature:SendUnitYell("¡Siente el poder de la mejor maga de todo Azeroth!", 0)
         creature:RegisterEvent(Boss_Mage, 1000, 0)
         creature:CastSpell(creature:GetVictim(), 29963, true) -- Lanza una linda polimorfia masiva :D
+    elseif Choice == 9 then
+        creature:SendUnitYell("¡Siente el poder del mejor caballero de la muerte de todo Azeroth!", 0)
+        creature:RegisterEvent(Boss_DK, 1000, 0)
+        creature:CastSpell(creature:GetVictim(), 49203, true) 
+        creature:CastSpell(creature:GetVictim(), 49206, true)
+        creature:CastSpell(creature:GetVictim(), 49938, true) -- 2 veces
     end
 end
-
 --=======================================================
 -------------------------ENRAGE
 --=======================================================
@@ -238,7 +253,7 @@ function Boss_Shaman(eventid, delay, calls, creature)
      -- Registra un evento de diálogo general después de 30 segundos, sin repetición
 end
 
--- Define una función para lanzar el hechizo de cadena del chamán
+
 function Boss_SpellShamanChain(eventid, delay, calls, creature)
     creature:CastSpell(creature:GetVictim(), 16033, true)
     --creature:SetScale(3) -- Lanza el hechizo de cadena del chamán en el objetivo actual
@@ -272,8 +287,82 @@ function Boss_SpellShamanBuff(event, delay, calls, creature)
     creature:CastSpell(creature, 10431, true)
     
 end
+--=======================================================
+-------------------------DK
+--=======================================================
+function Boss_DK(eventid, delay, calls, creature)
+    creature:RemoveEvents()
+    creature:SetDisplayId(25337) 
+    creature:SetScale(3)
+    creature:RemoveAllAuras()
+    creature:SetEquipmentSlots(33475, 0, 0)
+    creature:RegisterEvent(Boss_SpellAtraccion, 11000, 0)
+    creature:RegisterEvent(Boss_SpellAntimagia, 11000, 0)
+    creature:RegisterEvent(Boss_SpellCadena, 11000, 0)--45524 Cadena
+    creature:RegisterEvent(Boss_SpellDeflagacion, 11000, 0)--51328 Deflagacion
+    creature:RegisterEvent(Boss_SpellbuffDK, 11000, 0)--57623 buff
+    creature:RegisterEvent(Boss_SpellArmadura, 11000, 0)--51271 Armadura
+    creature:RegisterEvent(Boss_SpellEjercito, 11000, 0)--42650 Ejercito
+    creature:RegisterEvent(Boss_SpellEntereza, 11000, 0)--48792 Entereza
+    creature:RegisterEvent(Boss_SpellExplocion_aullante, 11000, 0)--51411 Explocion_aullante
+    creature:RegisterEvent(Boss_SpellCongelar, 11000, 0)--49203 Congelar
+    creature:RegisterEvent(Boss_SpellMuerte_descomposicion, 11000, 0)--49938 Muerte_descomposicion
+    creature:RegisterEvent(Boss_SpellToque_helado, 11000, 0)--49909 Toque_helado
 
 
+    creature:RegisterEvent(Boss_ClassPick, 30000, 0)
+    creature:RegisterEvent(Boss_TalkDK, 18000, 0) 
+    creature:RegisterEvent(Boss_Talk, 25000, 0)
+end
+
+function Boss_SpellToque_helado(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 49909, true)
+end
+
+function Boss_SpellMuerte_descomposicion(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 49938, true)
+end
+
+function Boss_SpellCongelar(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 49203, true)
+end
+
+function Boss_SpellExplocion_aullante(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 51411, true)
+end
+
+function Boss_SpellEntereza(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 48792, true)
+end
+
+function Boss_SpellEjercito(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 42650, true)
+end
+
+function Boss_SpellArmadura(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 51271, true)
+end
+
+function Boss_SpellbuffDK(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 57623, true)
+end
+
+function Boss_SpellDeflagacion(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 51328, true)
+end
+
+function Boss_SpellCadena(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 45524, true)
+end
+
+function Boss_SpellAtraccion(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 49576, true)
+end
+
+
+function Boss_SpellAntimagia(event, delay, calls, creature)
+    creature:CastSpell(creature, 48707, true)
+end
 --=======================================================
 -------------------------Paladin
 --=======================================================
