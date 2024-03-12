@@ -296,18 +296,18 @@ function Boss_DK(eventid, delay, calls, creature)
     creature:SetScale(3)
     creature:RemoveAllAuras()
     creature:SetEquipmentSlots(33475, 0, 0)
-    creature:RegisterEvent(Boss_SpellAtraccion, 11000, 0)
-    creature:RegisterEvent(Boss_SpellAntimagia, 11000, 0)
-    creature:RegisterEvent(Boss_SpellCadena, 11000, 0)--45524 Cadena
-    creature:RegisterEvent(Boss_SpellDeflagacion, 11000, 0)--51328 Deflagacion
-    creature:RegisterEvent(Boss_SpellbuffDK, 11000, 0)--57623 buff
-    creature:RegisterEvent(Boss_SpellArmadura, 11000, 0)--51271 Armadura
-    creature:RegisterEvent(Boss_SpellEjercito, 11000, 0)--42650 Ejercito
+    creature:RegisterEvent(Boss_SpellAtraccion, 5000, 0)
+    creature:RegisterEvent(Boss_SpellAntimagia, 8000, 0)
+    creature:RegisterEvent(Boss_SpellCadena, 8000, 3)--45524 Cadena
+    creature:RegisterEvent(Boss_SpellDeflagacion, 8000, 2)--51328 Deflagacion
+    creature:RegisterEvent(Boss_SpellbuffDK, 10000, 0)--57623 buff
+    creature:RegisterEvent(Boss_SpellArmadura, 10000, 0)--51271 Armadura
+    creature:RegisterEvent(Boss_SpellEjercito, 11000, 2)--42650 Ejercito
     creature:RegisterEvent(Boss_SpellEntereza, 11000, 0)--48792 Entereza
-    creature:RegisterEvent(Boss_SpellExplocion_aullante, 11000, 0)--51411 Explocion_aullante
-    creature:RegisterEvent(Boss_SpellCongelar, 11000, 0)--49203 Congelar
-    creature:RegisterEvent(Boss_SpellMuerte_descomposicion, 11000, 0)--49938 Muerte_descomposicion
-    creature:RegisterEvent(Boss_SpellToque_helado, 11000, 0)--49909 Toque_helado
+    creature:RegisterEvent(Boss_SpellExplocion_aullante, 6000, 0)--51411 Explocion_aullante
+    creature:RegisterEvent(Boss_SpellCongelar, 9000, 2)--49203 Congelar
+    creature:RegisterEvent(Boss_SpellMuerte_descomposicion, 6000, 2)--49938 Muerte_descomposicion
+    creature:RegisterEvent(Boss_SpellToque_helado, 4000, 0)--49909 Toque_helado
 
 
     creature:RegisterEvent(Boss_ClassPick, 30000, 0)
