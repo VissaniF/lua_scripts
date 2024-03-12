@@ -306,13 +306,28 @@ function Boss_DK(eventid, delay, calls, creature)
     creature:RegisterEvent(Boss_SpellEntereza, 11000, 0)--48792 Entereza
     creature:RegisterEvent(Boss_SpellExplocion_aullante, 6000, 0)--51411 Explocion_aullante
     creature:RegisterEvent(Boss_SpellCongelar, 9000, 2)--49203 Congelar
+    creature:RegisterEvent(Boss_SpellLevantar_muerto, 3000, 5)--46584 Levantar_muerto
+    creature:RegisterEvent(Boss_SpellPestilencia, 9000, 2)--50842 Pestilencia
+    creature:RegisterEvent(Boss_SpellPresencia, 9000, 2)--48263 Presencia escarcha
     creature:RegisterEvent(Boss_SpellMuerte_descomposicion, 6000, 2)--49938 Muerte_descomposicion
     creature:RegisterEvent(Boss_SpellToque_helado, 4000, 0)--49909 Toque_helado
 
 
-    creature:RegisterEvent(Boss_ClassPick, 30000, 0)
+    creature:RegisterEvent(Boss_ClassPick, 40000, 0)
     creature:RegisterEvent(Boss_TalkDK, 18000, 0) 
     creature:RegisterEvent(Boss_Talk, 25000, 0)
+end
+
+function Boss_SpellLevantar_muerto(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 46584, true)
+end
+
+function Boss_SpellPestilencia(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 50842, true)
+end
+
+function Boss_SpellPresencia(eventid, delay, calls, creature)
+    creature:CastSpell(creature, 48263, true)
 end
 
 function Boss_SpellToque_helado(eventid, delay, calls, creature)
@@ -516,15 +531,40 @@ function Boss_Priest(eventid, delay, calls, creature)
     creature:CastSpell(creature, 15473, true) -- Se tira sombras del sacer
     creature:RegisterEvent(Boss_SpellPriestNova, 8000, 0) -- 48078
     creature:RegisterEvent(Boss_SpellPriestSmite, 10000, 0) -- 25364
-    creature:RegisterEvent(Boss_SpellPriestDispel, 19000, 0) -- 32375
-    creature:RegisterEvent(Boss_SpellPriestPain, 15000, 0)
-    creature:RegisterEvent(Boss_SpellPriestTortura, 15000, 2)   --53023
+    creature:RegisterEvent(Boss_SpellPriestalarido_psiquico, 8000, 0)--10890 alarido_psiquico
+    creature:RegisterEvent(Boss_SpellPriestHorror, 8000, 0)--64044 Horror
+    creature:RegisterEvent(Boss_SpellPriestPeste_Devoradora, 8000, 0)--25467 Peste_Devoradora
+    creature:RegisterEvent(Boss_SpellPriestSilencio, 8000, 0)--15487 Silencio
+    creature:RegisterEvent(Boss_SpellPriestToque_Vampirico, 8000, 0)--48160 Toque_Vampirico
+    creature:RegisterEvent(Boss_SpellPriestDispel, 6000, 3) -- 32375
+    creature:RegisterEvent(Boss_SpellPriestPain, 10000, 0)
+    creature:RegisterEvent(Boss_SpellPriestTortura, 9000, 2)   --53023
     creature:RegisterEvent(Boss_SpellSanacion, 1500, 1, creature)
+    creature:RegisterEvent(Boss_SpellPriestBuff, 10000, 1)
     creature:RegisterEvent(Boss_SpellEscudo, 15000, 2) -- 25368
     creature:RegisterEvent(Boss_ClassPick, 30000, 0)
-    creature:RegisterEvent(Boss_SpellPriestBuff, 15000, 1) -- 48161
     creature:RegisterEvent(Boss_TalkPriest, 18000, 0)
     creature:RegisterEvent(Boss_Talk, 25000, 0)
+end
+
+function Boss_SpellPriestalarido_psiquico(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 10890, true)
+end
+
+function Boss_SpellPriestHorror(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 64044, true)
+end
+
+function Boss_SpellPriestSilencio(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 15487, true)
+end
+
+function Boss_SpellPriestPeste_Devoradora(eventid, delay, calls, creature)
+    creature:CastSpell(creature:GetVictim(), 25467, true)
+end
+
+function Boss_SpellPriestToque_Vampirico(eventid, delay, calls, creature)
+    creature:CastSpell(creature, 48160, true)
 end
 
 function Boss_SpellSanacion(eventid, delay, calls, creature)
@@ -824,6 +864,7 @@ local function OnLeaveCombat(event, creature)
     creature:SetScale(1)
     local display = creature:GetNativeDisplayId()
     creature:SetDisplayId(display)
+    creature:SetEquipmentSlots(11932, 0, 0)
     
     creature:SendUnitSay("Fallaste en el intento... Vuelve en otra oportunidad jajaja", 0)
 end
