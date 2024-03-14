@@ -10,6 +10,7 @@ local function OnEnterCombat(event, creature, target)
     
     --creature:CastSpell(creature, 51271, true)
     
+    
     creature:SendUnitSay("Ustedes se la buscaron, ¡Ahora van a morir!", 0)
     
     creature:RegisterEvent(Boss_ClassPick, 6000, 0)
@@ -859,6 +860,9 @@ end
 
 --============================================================--
 
+
+
+
 local function OnLeaveCombat(event, creature)
        creature:RemoveEvents()
     creature:SetScale(1)
@@ -897,8 +901,18 @@ local function OnKilledPlayer(event, creature, victim)
 end
 
 
-
-
+MoobEntry = 300000
+local BOSSSecundario = 300000
+local function InvocarBoss(event, creature, killer)
+    if killer and killer:IsPlayer() then
+        local x, y, z, t = creature:GetLocation()
+        local summonboss = creature:SummonCreature(BOSSSecundario, x, y, z, t, 20000)
+        if summonboss then
+            summonboss:AttackStart(killer)
+        end
+    end
+end
+RegisterCreatureEvent(MoobEntry, 4, InvocarBoss)
 RegisterCreatureEvent(npcId, 1, OnEnterCombat)
 RegisterCreatureEvent(npcId, 2, OnLeaveCombat)
 RegisterCreatureEvent(npcId, 3, OnKilledPlayer)

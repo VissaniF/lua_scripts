@@ -1,18 +1,27 @@
-local cmd = "buff"
+local GMrank = 3
 
-local auras = {25898, 48469, 42995, 48169, 48073, 48161, 26035, 23735, 23736, 23737, 23738, 23766, 23767, 23768, 23769, 53307 }
-
-local function OnCommand(event, player, command)
-    if command == cmd then
-        if not player:IsInCombat() then
-            for i = 2, #auras, 1 do
-                player:AddAura(auras[i], player)
-            end
-            player:CastSpell(player, auras[1], true)
-        else
-            player:SendNotification("Estas en combate!")
-        end
-        return false
-    end
+local function Buffcommand(event, unit, msg, Type, lang)
+	if(msg == "Vissani") then
+        unit:CastSpell(unit, 15366, true)
+        unit:CastSpell(unit, 16609, true)
+        unit:CastSpell(unit, 48162, true)
+        unit:CastSpell(unit, 48074, true)
+        unit:CastSpell(unit, 48170, true)
+        unit:CastSpell(unit, 43223, true)
+        unit:CastSpell(unit, 36880, true)
+        unit:CastSpell(unit, 467, true)
+        unit:CastSpell(unit, 69994, true)
+        unit:CastSpell(unit, 33081, true)
+        unit:CastSpell(unit, 24705, true)
+        unit:CastSpell(unit, 26035, true)
+        unit:CastSpell(unit, 48469, true)
+        unit:SendAreaTriggerMessage("You have been buffed!") 
+	if(unit:GetGMRank() >= GMrank)then
+		unit:CastSpell(unit,35874, true)
+		unit:CastSpell(unit,35912, true)
+		unit:CastSpell(unit,38734, true)
+		end
+	end
+	return false;
 end
-RegisterPlayerEvent(42, OnCommand)
+RegisterPlayerEvent(18, Buffcommand)
