@@ -23,20 +23,25 @@ end
 local function eventoHandler(event, player, command)
     if (command:lower() == "evento") then                               --nombre del comando
         local dado = math.random(1, 100) -- Tirar un dado entre 1 y 100
-        player:SendBroadcastMessage("Has tirado el dado y has obtenido unos tristes " .. dado .. " .")
+        player:SendBroadcastMessage("Has tirado los dados y recibiste " .. dado .. " .")
         
         if (dado < 50) then
             player:SendBroadcastMessage("¡Has perdido!, Te teletransportaras a tu mall en 5 segundos...")
-            esperar(5)
+            esperar(1)
+            player:SendBroadcastMessage("Te teletransportaras a tu mall en 4 segundos...")
+            esperar(2)
+            player:SendBroadcastMessage("Te teletransportaras a tu mall en 2 segundos...")
+            esperar(2)
             if (player:GetTeam() == 0) then -- Alianza
                 player:Teleport(MapID_Alliance, XPos_Alliance, YPos_Alliance, ZPos_Alliance, Posicion)
             elseif (player:GetTeam() == 1) then -- Horda
                 player:Teleport(MapID_Horde, XPos_Horde, YPos_Horde, ZPos_Horde, Posicion)
             end
+            player:SendBroadcastMessage("Suerte la próxima.")
             return false
             
         else
-            player:SendBroadcastMessage("¡Has ganado! Ahora recibiras tu premio")
+            player:SendBroadcastMessage("¡Has ganado! Ahora recibiras tu premio.")
             esperar(4)
             player:AddItem(itemID, cantidad_regalo) -- Agregar ítems al jugador que tiró el dado
             player:SendNotification("¡¡¡Felicitaciones!!!")
