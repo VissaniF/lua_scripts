@@ -1,21 +1,26 @@
-local ITEM_ID = 21100
-local CANTIDAD_RECOMPENSA = 100
+local REWARD_ITEM_ID = 21100
+local REWARD_AMOUNT = 100
 
-local function onBattlegroundEnd(event, bg, bgId, instanceId, winner)
-    for _, player in ipairs(GetPlayersInWorld()) do
-        if player:GetInstanceId() == instanceId then
-            if winner == 1 and player:IsHorde() == 1 then
-                player:AddItem(ITEM_ID, CANTIDAD_RECOMPENSA)
-                player:SendNotification("Has ganado la batalla como Horda. Has recibido " .. CANTIDAD_RECOMPENSA .. " del ítem con ID " .. ITEM_ID .. ".")
-            elseif winner == 0 and player:IsAlliance() == 1 then
-                player:AddItem(ITEM_ID, CANTIDAD_RECOMPENSA)
-                player:SendNotification("Has ganado la batalla como Alianza. Has recibido " .. CANTIDAD_RECOMPENSA .. " del ítem con ID " .. ITEM_ID .. ".")
+local function RewardWinningTeam(battleground)
+    local winner = battleground:GetWinner()
+    if winner ~= 0 then
+        for _, player in ipairs(battleground:GetPlayers()) do
+            if player:GetTeam() == winner then
+                player:AddItem(REWARD_ITEM_ID, REWARD_AMOUNT)
+                player:SendBroadcastMessage("¡Felicidades! Has ganado la Batalla de JcJ y has recibido " .. REWARD_AMOUNT .. " unidades del ítem con ID " .. REWARD_ITEM_ID .. " como recompensa.")
             end
         end
     end
 end
 
-RegisterBGEvent(2, onBattlegroundEnd)
+local function OnBGEnd(event, battlegroundID)
+    local battleground = GetBattleground(battlegroundID)
+    if battleground then
+        local status = battleground:GetStatus()
+        if status == "ended" then
+            RewardWinningTeam(battleground)
+        end
+    end
+end
 
-
-###Trabajando en este, no puedo registrar el evento de cuando sale de BG
+RegisterServerEvent(15, OnBGEnd) -- Suscribirse al evento BATTLEGROUND_END
