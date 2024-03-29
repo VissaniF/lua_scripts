@@ -1,26 +1,12 @@
-local CofreItem = 23333
-local CofreItemLoser = 123
+local BG_DESERTER_SPELL_ID = 26013 -- ID del hechizo de desertor de campo de batalla
 
-local function TerminaBG(event, bg, bgId, instanceId, winner) -- horda = 0 | alianza = 1
-    local losers
-    if winner == 0 then
-        losers = 1
-    else
-        losers = 0
-    end
-    local map = bg:GetMap()
-
-    -- recompensas winners
-    local PlayerWinners = map:GetPlayers(winner) -- Â¿winner = team ganador?
-    for k, player in pairs(PlayerWinners) do
-        player:AddItem(CofreItem)
-    end
-    
-    -- recompensas perdedores
-    local PlayersLosers = map:GetPlayers(losers)
-    for k, player in pairs(PlayerWinners) do
-        player:AddItem(CofreItemLoser)
+local function RemoveDeserterAura(event, player, _, _, _, _, _, _, _, bgMapId)
+    if bgMapId and player:IsInWorld() then
+        if player:HasAura(BG_DESERTER_SPELL_ID) then
+            player:RemoveAura(BG_DESERTER_SPELL_ID)
+            player:SendBroadcastMessage("You are no longer marked as a deserter.")
+        end
     end
 end
 
-RegisterBGEvent(2, TerminaBG)
+RegisterPlayerEvent(29, RemoveDeserterAura) -- Evento 29: PLAYER_BG_DESERTER_AURA_REMOVED

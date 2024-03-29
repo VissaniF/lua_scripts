@@ -4,7 +4,7 @@ function esperar(segundos)
     repeat until os.time() > start + segundos
 end
 -- Esta función se llama cuando la criatura entra en combate
-local function OnEnterCombat(event, creature, target)
+local function AlEntrarEnCombate(event, creature, target)
     creature:CastSpell(creature, 543, true)
     creature:CastSpell(creature:GetVictim(), 42940, true)
     creature:CastSpell(creature:GetVictim(), 42917, true)
@@ -43,6 +43,14 @@ function Boss_Sulvus(eventid, delay, calls, creature)
     creature:RemoveAllAuras()
     creature:PlayDistanceSound(3520) -- Sonido entrar en combate
 
+    local x, y, z, o = creature:GetLocation()
+    print("Coordenadas antes del movimiento:", x, y, z)
+    xnueva = x -10
+    creature:MoveTo(0, xnueva, y, z, true)
+    print("Coordenadas después del movimiento:", x, y, znueva)
+    wait(2)
+    znueva = z +35
+    creature:MoveTo(0, xnueva, y, znueva, true)
     
 
     creature:RegisterEvent(function(eventid, delay, calls, creature)
@@ -107,7 +115,7 @@ end
 
 
 -- Frases al wipear
-local function OnLeaveCombat(event, creature)
+local function AlDejarElCombate(event, creature)
     creature:RemoveEvents()
     creature:SetScale(1)
     local display = creature:GetNativeDisplayId()
@@ -116,7 +124,7 @@ local function OnLeaveCombat(event, creature)
 end
 
 -- Frases al morir el boss
-local function OnDied(event, creature, killer)
+local function AlMorir(event, creature, killer)
     if killer and killer:IsPlayer() then
         killer:SendBroadcastMessage("¡Pudiste matar a la gran " .. creature:GetName() .. "!")
     end
@@ -134,7 +142,7 @@ local killedMessages = {
     "La muerte es solo el principio...",
 }
 
-local function OnKilledPlayer(event, creature, victim)
+local function AlMatarUnPj(event, creature, victim)
     local playerName = victim:GetName()
     local messageIndex = math.random(1, #killedMessages)
     local message = killedMessages[messageIndex]
@@ -142,7 +150,7 @@ local function OnKilledPlayer(event, creature, victim)
     creature:PlayDistanceSound(3520) -- Sonido al morir alguno
 end
 
-RegisterCreatureEvent(npcId, 1, OnEnterCombat)
-RegisterCreatureEvent(npcId, 2, OnLeaveCombat)
-RegisterCreatureEvent(npcId, 3, OnKilledPlayer)
-RegisterCreatureEvent(npcId, 4, OnDied)
+RegisterCreatureEvent(npcId, 1, AlEntrarEnCombate)
+RegisterCreatureEvent(npcId, 2, AlDejarElCombate)
+RegisterCreatureEvent(npcId, 3, AlMatarUnPj)
+RegisterCreatureEvent(npcId, 4, AlMorir)

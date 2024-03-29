@@ -1,27 +1,25 @@
-local GMrank = 3
+local cmd = {"buff", "vissani"}  -- Lista de comandos aceptados
 
-local function Buffcommand(event, unit, msg, Type, lang)
-	if(msg == "Vissani") then
-        unit:CastSpell(unit, 15366, true)
-        unit:CastSpell(unit, 16609, true)
-        unit:CastSpell(unit, 48162, true)
-        unit:CastSpell(unit, 48074, true)
-        unit:CastSpell(unit, 48170, true)
-        unit:CastSpell(unit, 43223, true)
-        unit:CastSpell(unit, 36880, true)
-        unit:CastSpell(unit, 467, true)
-        unit:CastSpell(unit, 69994, true)
-        unit:CastSpell(unit, 33081, true)
-        unit:CastSpell(unit, 24705, true)
-        unit:CastSpell(unit, 26035, true)
-        unit:CastSpell(unit, 48469, true)
-        unit:SendAreaTriggerMessage("You have been buffed!") 
-	if(unit:GetGMRank() >= GMrank)then
-		unit:CastSpell(unit,35874, true)
-		unit:CastSpell(unit,35912, true)
-		unit:CastSpell(unit,38734, true)
-		end
-	end
-	return false;
+local function Bufeandose(event, player, command)
+    for _, c in ipairs(cmd) do
+        if command == c then
+            player:CastSpell(player, 15366, true)
+            player:CastSpell(player, 16609, true)
+            player:CastSpell(player, 48162, true)
+            player:CastSpell(player, 48074, true)
+            player:CastSpell(player, 48170, true)
+            player:CastSpell(player, 43223, true)
+            player:CastSpell(player, 36880, true)
+            player:CastSpell(player, 467, true)
+            player:CastSpell(player, 69994, true)
+            player:CastSpell(player, 33081, true)
+            player:CastSpell(player, 24705, true)
+            player:CastSpell(player, 26035, true)
+            player:CastSpell(player, 48469, true)
+            player:SendNotification("Te buffeaste PT")
+            return false
+        end
+    end
 end
-RegisterPlayerEvent(18, Buffcommand)
+
+RegisterPlayerEvent(42, Bufeandose)

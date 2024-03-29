@@ -7,9 +7,7 @@ local npcId = 400000
 local function OnEnterCombat(event, creature, target)
     
     --creature:CastSpell(creature, 26297, true)
-    
-    --creature:CastSpell(creature, 51271, true)
-    
+    creature:CastSpell(creature, 51271, true)
     
     creature:SendUnitSay("Ustedes se la buscaron, ¡Ahora van a morir!", 0)
     

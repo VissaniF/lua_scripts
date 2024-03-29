@@ -52,7 +52,7 @@ local function eventoHandler(event, player, command)
 end
 
 local function registerEventoEvent()
-    RegisterPlayerEvent(42, function(event, player, command) -- Registro del evento de comando del jugador
+    RegisterPlayerEvent(41, function(event, player, command) -- Registro del evento de comando del jugador
         local playerZone = player:GetZoneId()
         if playerZone == ZonaDeseada then
             eventoHandler(event, player, command)
