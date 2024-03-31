@@ -34,6 +34,7 @@ local function TeachAndLevelUpLeatherworking(player)
     else
         player:LearnSpell(spellID) -- Aprender el hechizo de Peletería
         player:AdvanceSkill(skillID, maxSkillLevel) -- Subir la habilidad de peletería al nivel máximo
+        player:LearnAllRecipesForProfession(skillID)
         player:SendBroadcastMessage("¡Felicidades! Ahora tienes la profesión de Peletería al nivel máximo.")
 
         --player:SendBroadcastMessage("¡Todas las recetas de Peletería han sido aprendidas!")

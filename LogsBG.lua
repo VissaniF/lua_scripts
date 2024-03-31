@@ -46,6 +46,16 @@ local Faction = {
     [0] =  "|cffff6060Horde", -- Horde
 };
 
+function getLastBattlegroundDeserter(bgType)
+    local playerGuid = 0
+    local query = CharDBQuery("SELECT guid FROM battleground_deserters WHERE type = '"..bgType.."' ORDER BY datatime DESC LIMIT 1;")
+    if query then
+        playerGuid = query:GetUInt32(0)
+        return playerGuid
+    end
+end
+
+
 function getBattleID(bgId, getWinnerTeam)
     local BattleID_final = 0;
     local BattleID = CharDBQuery("SELECT id FROM `pvpstats_battlegrounds` WHERE `type` = '"..bgId.."' AND `winner_faction` = '"..getWinnerTeam.."' ORDER BY `date` DESC LIMIT 1;")
